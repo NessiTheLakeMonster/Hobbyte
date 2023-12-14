@@ -1,4 +1,6 @@
 package model
 
-class Partida {
-}
+data class Partida(
+    val idUsuario: Int,
+    val estado: String,
+)

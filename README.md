@@ -50,6 +50,15 @@ Proyecto realizado por Inés Mª Barrera Llerena
 - Ruta : `http://192.168.0.29:8090/insertarPruebas`
 - Verbo : `POST`
 
+## Rutas para las partidas
+
+#### Creación de una partida
+- Ruta : `http://192.168.0.29:8090/crearPartida/{id}`
+- Verbo : `POST`
+- Parámetros necesarios:
+  - `id` -> la id del usuario que va a crear esa partida
+
+
 ----
 # Enunciado
 

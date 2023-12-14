@@ -4,12 +4,12 @@ import java.sql.*
 import database.Conexion.abrirConexion
 import database.Conexion.cerrarConexion
 
-object ConexionUsuarios {
+object  ConexionUsuarios {
 
     fun insertarPersona(nombre: String, apellido: String, email: String, password: String): Int {
         var cod = 0
 
-        val query = "INSERT INTO" +  Constantes.TablaUsuarios + "(nombre, apellido, email, password) VALUES (?, ?, ?, ?)"
+        val query = "INSERT INTO " +  Constantes.TablaUsuarios + "(nombre, apellido, email, password) VALUES (?, ?, ?, ?)"
 
         try {
             abrirConexion()
