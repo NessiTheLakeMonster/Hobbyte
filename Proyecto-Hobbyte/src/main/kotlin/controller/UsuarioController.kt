@@ -4,6 +4,7 @@ import database.ConexionUsuarios
 import io.ktor.http.*
 import modelo.Respuesta
 import modelo.Usuario
+import utils.Revoked
 
 object UsuarioController {
 
@@ -47,5 +48,24 @@ object UsuarioController {
 
         return Respuesta(msg, cod)
     }
+
+    fun logout(token: String): Respuesta {
+    var cod = 0
+
+    // Remove the token from the list of active tokens
+    val logoutSuccessful = Revoked.revoked.remove(token)
+
+    var msg = ""
+
+    if (logoutSuccessful) {
+        msg = "Logout con exito"
+        cod = HttpStatusCode.OK.value
+    } else {
+        msg = "Error al hacer logout"
+        cod = HttpStatusCode.BadRequest.value
+    }
+
+    return Respuesta(msg, cod)
+}
 
 }

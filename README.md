@@ -33,6 +33,16 @@ Proyecto realizado por Inés Mª Barrera Llerena
 }
 ```
 
+#### Cerrar sesión
+- Ruta : `http://192.168.0.29:8090/logout`
+- Verbo : `GET`
+
+```json
+{
+  "token" : "Añade aquí tu token"
+}
+```
+
 ----
 # Enunciado
 

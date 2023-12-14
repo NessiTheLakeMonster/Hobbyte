@@ -9,29 +9,38 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import modelo.Usuario
-import modelo.Respuesta
 import modelo.UsuarioLogin
+import utils.RevokeTokenRequest
+import utils.Revoked
 import utils.TokenManager
 
 fun Route.userRouting() {
     val tokenManager = TokenManager()
 
     route("/registrar") {
-        post{
+        post {
             val user = call.receive<Usuario>()
             UsuarioController.addUsuario(user)
-            call.respondText("Usuario creado",status = HttpStatusCode.Created)
+            call.respondText("Usuario creado", status = HttpStatusCode.Created)
         }
     }
 
     route("/login") {
-        post{
+        post {
             val user = call.receive<UsuarioLogin>()
-            val usuario = UsuarioController.getUsuario(user.email)
-
+            UsuarioController.getUsuario(user.email)
 
             val token = tokenManager.generateJWTToken(user)
             call.respond(mapOf("token" to token, "email" to user.email))
+        }
+    }
+
+    route("/logout") {
+        get {
+            val revokeTokenRequest = call.receive<RevokeTokenRequest>()
+            val token = revokeTokenRequest.token
+            Revoked.revoked.add(token)
+            call.respond(HttpStatusCode.OK, "Logout con exito")
         }
     }
 
