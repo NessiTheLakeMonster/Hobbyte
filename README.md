@@ -37,11 +37,18 @@ Proyecto realizado por Inés Mª Barrera Llerena
 - Ruta : `http://192.168.0.29:8090/logout`
 - Verbo : `GET`
 
+##### JSON para poder probar la ruta
 ```json
 {
   "token" : "Añade aquí tu token"
 }
 ```
+
+## Rutas para las pruebas
+
+#### Insertar las pruebas
+- Ruta : `http://192.168.0.29:8090/insertarPruebas`
+- Verbo : `POST`
 
 ----
 # Enunciado
@@ -82,8 +89,8 @@ están ya en la base de datos pero debemos dar la posibilidad de generar con fac
 
 ## Tabla Personaje
 
-| id | nombre | idTipoPrueba | capacidadMax |
-|----|--------|--------------|--------------|
+| id | nombre | idTipoPrueba | capacidadMax | idUsuario |
+|----|--------|--------------|--------------|-----------|
 
 ## Tabla Prueba
 

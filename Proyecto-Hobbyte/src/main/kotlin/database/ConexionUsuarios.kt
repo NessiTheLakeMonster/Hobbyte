@@ -1,8 +1,6 @@
 package database
 
 import java.sql.*
-import java.util.*
-import modelo.Usuario
 import database.Conexion.abrirConexion
 import database.Conexion.cerrarConexion
 

@@ -2,8 +2,8 @@ package controller
 
 import database.ConexionUsuarios
 import io.ktor.http.*
-import modelo.Respuesta
-import modelo.Usuario
+import model.Respuesta
+import model.Usuario
 import utils.Revoked
 
 object UsuarioController {

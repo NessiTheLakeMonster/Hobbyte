@@ -9,4 +9,6 @@ object Constantes {
     var passwd = ""
 
     var TablaUsuarios = "usuario"
+    var TablaPersonajes = "personaje"
+    var TablaPruebas = "prueba"
 }

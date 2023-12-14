@@ -1,15 +1,13 @@
-package rutas
+package routes
 
 import controller.UsuarioController
 import io.ktor.http.*
 import io.ktor.server.application.*
-import io.ktor.server.auth.*
-import io.ktor.server.auth.jwt.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import modelo.Usuario
-import modelo.UsuarioLogin
+import model.Usuario
+import model.UsuarioLogin
 import utils.RevokeTokenRequest
 import utils.Revoked
 import utils.TokenManager

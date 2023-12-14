@@ -3,8 +3,7 @@ package utils
 import com.auth0.jwt.JWT
 import com.auth0.jwt.JWTVerifier
 import com.auth0.jwt.algorithms.Algorithm
-import modelo.Usuario
-import modelo.UsuarioLogin
+import model.UsuarioLogin
 
 class TokenManager {
     var secret = Parametros.secret
