@@ -27,4 +27,12 @@ object PartidaController {
 
         return Respuesta(msg, cod)
     }
+
+    fun generarPartida(idPartida: Int) : List<Int> {
+        val ids = PruebaController.getIdPruebas()
+        ids.shuffled()
+
+
+        return ids
+    }
 }

@@ -12,4 +12,5 @@ object Constantes {
     var TablaPersonajes = "personaje"
     var TablaPruebas = "prueba"
     var TablaPartida = "partida"
+    var TablaCasilla = "casilla"
 }

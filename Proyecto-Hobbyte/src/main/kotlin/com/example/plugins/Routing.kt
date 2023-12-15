@@ -5,6 +5,7 @@ import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import model.Respuesta
+import routes.casillaRouting
 import routes.partidaRouting
 import routes.pruebasRouting
 import routes.userRouting
@@ -18,5 +19,6 @@ fun Application.configureRouting() {
         userRouting()
         pruebasRouting()
         partidaRouting()
+        casillaRouting()
     }
 }

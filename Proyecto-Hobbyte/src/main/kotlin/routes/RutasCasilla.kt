@@ -7,18 +7,18 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import model.Partida
 
-fun Route.partidaRouting() {
-    route("/crearPartida/{idUsuario}") {
+fun Route.casillaRouting() {
+    route("/crearCasilla/{idPartida}") {
         post {
-            val partida = call.parameters["idUsuario"] ?: return@post call.respondText(
+            val partida = call.parameters["idPartida"] ?: return@post call.respondText(
                 "id vacío en la url",
                 status = HttpStatusCode.BadRequest
             )
 
             val par = partida.toInt()
 
-            PartidaController.addPartida(Partida(par, "En curso"))
-            call.respondText("Partida creada", status = HttpStatusCode.Created)
+            PartidaController.addPartida(Partida(par, "Prueba no comenzada"))
+            call.respondText("Casilla creada", status = HttpStatusCode.Created)
         }
     }
 }

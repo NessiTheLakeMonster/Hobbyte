@@ -32,4 +32,21 @@ object PruebaController {
 
         return Respuesta(msg, cod)
     }
+
+    fun getIdPruebas(): List<Int> {
+        var cod = 0
+        var msg = ""
+
+        val ids = ConexionPrueba.getIdPruebas()
+
+        if (ids.isNotEmpty()) {
+            msg = "Ids de las pruebas obtenidos correctamente" + ids.toString()
+            cod = HttpStatusCode.OK.value
+        } else {
+            msg = "Error al obtener los ids de las pruebas"
+            cod = HttpStatusCode.BadRequest.value
+        }
+
+        return ids
+    }
 }

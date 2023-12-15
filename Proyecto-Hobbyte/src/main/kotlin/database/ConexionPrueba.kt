@@ -28,4 +28,29 @@ object ConexionPrueba {
 
         return cod
     }
+
+    fun getIdPruebas(): ArrayList<Int> {
+        val ids = ArrayList<Int>()
+
+        val query = "SELECT id FROM ${Constantes.TablaPruebas}"
+
+        try {
+            abrirConexion()
+            val ps = Conexion.conexion!!.prepareStatement(query)
+
+            val rs = ps.executeQuery()
+
+            while (rs.next()) {
+                ids.add(rs.getInt("id"))
+            }
+
+            ps.close()
+        } catch (sq: SQLException) {
+            println("Error al buscar en la BD" + sq.message)
+        } finally {
+            cerrarConexion()
+        }
+
+        return ids
+    }
 }

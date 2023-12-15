@@ -15,4 +15,12 @@ fun Route.pruebasRouting() {
             call.respondText("Pruebas insertadas correctamente", status = HttpStatusCode.Created)
         }
     }
+
+    route("/obtenerPruebasId") {
+        get {
+            val respuesta = PruebaController.getIdPruebas()
+
+            call.respond(respuesta)
+        }
+    }
 }
