@@ -1,5 +1,6 @@
 package routes
 
+import controller.CasillaController
 import controller.PartidaController
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -17,8 +18,23 @@ fun Route.casillaRouting() {
 
             val par = partida.toInt()
 
-            PartidaController.addPartida(Partida(par, "Prueba no comenzada"))
+            CasillaController.crearCasilla(par)
             call.respondText("Casilla creada", status = HttpStatusCode.Created)
+        }
+    }
+
+    route("/destaparCasilla/{idPartida}") {
+        get {
+            val partida = call.parameters["idPartida"] ?: return@get call.respondText(
+                "id vacío en la url",
+                status = HttpStatusCode.BadRequest
+            )
+
+            val par = partida.toInt()
+
+            val respuesta = CasillaController.destaparCasilla(par)
+
+            call.respond(respuesta)
         }
     }
 }

@@ -4,8 +4,13 @@ import model.Prueba
 
 class PruebaFactory {
 
-    fun randomTipos(): String {
-        val tipos = listOf("magia", "fuerza", "habilidad")
+    /*
+    1 -> magia
+    2 -> fuerza
+    3 -> habilidad
+     */
+    fun randomTipos(): Int {
+        val tipos = listOf(1, 2, 3)
         val random = (0..2).random()
         return tipos[random]
     }

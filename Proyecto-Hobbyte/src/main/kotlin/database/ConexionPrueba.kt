@@ -6,16 +6,16 @@ import java.sql.*
 
 object ConexionPrueba {
 
-    fun insertarPruebas(tipo: String, esfuerzo: Int) : Int {
+    fun insertarPruebas(tipo: Int, esfuerzo: Int) : Int {
         val cod = 0
 
-        val query = "INSERT INTO ${Constantes.TablaPruebas} (tipo, esfuerzo) VALUES (?, ?)"
+        val query = "INSERT INTO ${Constantes.TablaPruebas} (idTipoPrueba, esfuerzo) VALUES (?, ?)"
 
         try {
             abrirConexion()
             val ps = Conexion.conexion!!.prepareStatement(query)
 
-            ps.setString(1, tipo)
+            ps.setInt(1, tipo)
             ps.setInt(2, esfuerzo)
 
             ps.executeUpdate()

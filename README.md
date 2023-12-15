@@ -5,6 +5,10 @@ Proyecto realizado por Inés Mª Barrera Llerena
 ---
 # Manual del Administrador
 
+## Montar el servidor
+En el archivo `Constantes` se debe cambiar el parámetro de la `IP` a la que tenga el
+usuario actualmente.
+
 ## Rutas para los Usuarios
 
 #### Registro 
@@ -50,13 +54,22 @@ Proyecto realizado por Inés Mª Barrera Llerena
 - Ruta : `http://192.168.0.29:8090/insertarPruebas`
 - Verbo : `POST`
 
-## Rutas para las partidas
+## Rutas para los personajes
 
-#### Creación de una partida
-- Ruta : `http://192.168.0.29:8090/crearPartida/{id}`
+#### Creación de los personajes
+- Ruta : `http://192.168.0.29:8090/crearPersonajes/{id}`
 - Verbo : `POST`
 - Parámetros necesarios:
-  - `id` -> la id del usuario que va a crear esa partida444
+  - `id` -> la id del usuario del que van a ser los personajes
+
+## Rutas para las partidas
+
+#### Creación de una partida [RUTA PROTEGIDA CON TOKEN]
+- Ruta : `http://192.168.0.29:8090/generarPartida/{id}`
+- Verbo : `POST`
+- Parámetros necesarios:
+  - `id` -> la id del usuario que va a crear esa partida
+  - `Bearer Token`
 
 
 ----
@@ -103,8 +116,13 @@ están ya en la base de datos pero debemos dar la posibilidad de generar con fac
 
 ## Tabla Prueba
 
-| id | tipo | esfuerzo |
+| id | idTipoPrueba | esfuerzo |
 |----|------|----------|
+
+## Tabla TipoPrueba
+
+| id | nombre |
+|----|------|
 
 ## Tabla Partida
 
