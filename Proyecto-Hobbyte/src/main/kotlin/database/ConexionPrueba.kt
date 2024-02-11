@@ -9,7 +9,7 @@ object ConexionPrueba {
     fun insertarPruebas(tipo: Int, esfuerzo: Int) : Int {
         val cod = 0
 
-        val query = "INSERT INTO ${Constantes.TablaPruebas} (idTipoPrueba, esfuerzo) VALUES (?, ?)"
+        val query = "INSERT INTO ${Constantes.TablaPruebas} (tipo, esfuerzo) VALUES (?, ?)"
 
         try {
             abrirConexion()

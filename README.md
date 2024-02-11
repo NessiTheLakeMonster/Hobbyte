@@ -134,3 +134,4 @@ están ya en la base de datos pero debemos dar la posibilidad de generar con fac
 | id | idPartida | idTipoPrueba | capacidadActual |
 |----|-----------|--------------|-----------------|
 
+€

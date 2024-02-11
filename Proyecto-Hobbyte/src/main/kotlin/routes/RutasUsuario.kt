@@ -19,6 +19,7 @@ fun Route.userRouting() {
         post {
             val user = call.receive<Usuario>()
             UsuarioController.addUsuario(user)
+            
             call.respondText("Usuario creado", status = HttpStatusCode.Created)
         }
     }

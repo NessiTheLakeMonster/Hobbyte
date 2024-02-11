@@ -12,6 +12,7 @@ private val personajes = arrayListOf<Personaje>(
     Personaje("Thorin", 2, 50),
     Personaje("Bilbo", 3, 50),
 )
+
 fun Route.personajeRouting() {
 
     route("/crearPersonajes/{idUsuario}") {
