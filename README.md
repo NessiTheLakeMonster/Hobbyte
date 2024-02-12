@@ -3,15 +3,34 @@
 Proyecto realizado por Inés Mª Barrera Llerena
 
 ---
+# Rutas a ejecutar para un juego rápido
+
+1º - Registrarse y loggearse
+- Ruta : `http://192.168.0.29:8090/registrar`
+- Ruta : `http://192.168.0.29:8090/login`
+
+2º - Insertar las pruebas
+- Ruta : `http://192.168.0.29:8090/insertarPruebas`
+
+3º - Crear los personajes pertenecientes al usuario
+- Ruta : `http://192.168.0.29:8090/crearPersonajes/{idUsuario}`
+
+4º - Crear la partida
+
+5º - Generar las casillas pertenecientes a esa partida 
+
+---
 # Manual del Administrador
 
 ## Montar el servidor
-En el archivo `Constantes` se debe cambiar el parámetro de la `IP` a la que tenga el
-usuario actualmente.
+
+> [!IMPORTANT]
+> En el archivo `Constantes` se debe cambiar el parámetro de la `IP` a la que tenga el
+> usuario actualmente.
 
 ## Rutas para los Usuarios
 
-#### Registro 
+### Registro 
 - Ruta : `http://192.168.0.29:8090/registrar`
 - Verbo : `POST`
 
@@ -25,7 +44,7 @@ usuario actualmente.
 }
 ```
 
-#### Inicio de sesión
+### Inicio de sesión
 - Ruta : `http://192.168.0.29:8090/login`
 - Verbo : `POST`
 
@@ -37,7 +56,7 @@ usuario actualmente.
 }
 ```
 
-#### Cerrar sesión
+### Cerrar sesión
 - Ruta : `http://192.168.0.29:8090/logout`
 - Verbo : `GET`
 
@@ -50,27 +69,30 @@ usuario actualmente.
 
 ## Rutas para las pruebas
 
-#### Insertar las pruebas
+### Insertar las pruebas
 - Ruta : `http://192.168.0.29:8090/insertarPruebas`
 - Verbo : `POST`
 
 ## Rutas para los personajes
 
-#### Creación de los personajes
-- Ruta : `http://192.168.0.29:8090/crearPersonajes/{id}`
+### Creación de los personajes
+- Ruta : `http://192.168.0.29:8090/crearPersonajes/{idUsuario}`
 - Verbo : `POST`
 - Parámetros necesarios:
-  - `id` -> la id del usuario del que van a ser los personajes
+  - `idUsuario` -> la id del usuario del que van a ser los personajes
 
 ## Rutas para las partidas
 
-#### Creación de una partida [RUTA PROTEGIDA CON TOKEN]
-- Ruta : `http://192.168.0.29:8090/generarPartida/{id}`
+### Creación de una partida [RUTA PROTEGIDA CON TOKEN]
+- Ruta : `http://192.168.0.29:8090/generarPartida/{idUsuario}`
 - Verbo : `POST`
 - Parámetros necesarios:
-  - `id` -> la id del usuario que va a crear esa partida
+  - `idUsuario` -> la id del usuario que va a crear esa partida
   - `Bearer Token`
 
+### Comprobar tablero de la partida
+- Ruta: `http://192.168.0.21:8090/verTablero/{idPartida}`
+- `GET`
 
 ----
 # Enunciado

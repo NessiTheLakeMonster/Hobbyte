@@ -33,8 +33,9 @@ fun Route.pruebasRouting() {
     route("/obtenerPruebasId") {
         get {
             val respuesta = PruebaController.getIdPruebas()
+            println(respuesta.toString())
 
-            call.respond(respuesta)
+            call.respondText { respuesta.toString() }
         }
     }
 }

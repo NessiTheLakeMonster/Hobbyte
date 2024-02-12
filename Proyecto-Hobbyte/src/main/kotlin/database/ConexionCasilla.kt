@@ -5,18 +5,18 @@ import java.sql.SQLException
 
 object ConexionCasilla {
 
-    fun insertarCasilla(idPartida: Int, idTipoPrueba: Int, estadoPrueba: String): Int {
+    fun insertarCasilla(idPartida: Int, idPrueba: Int, estadoPrueba: String): Int {
         var cod = 0
 
         val query =
-            "INSERT INTO " + Constantes.TablaCasilla + "(idPartida, idTipoPrueba, estadoPrueba) VALUES (?, ?, ?)"
+            "INSERT INTO " + Constantes.TablaCasilla + "(idPartida, idPrueba, estadoPrueba) VALUES (?, ?, ?)"
 
         try {
             Conexion.abrirConexion()
             val ps = Conexion.conexion!!.prepareStatement(query)
 
             ps.setInt(1, idPartida)
-            ps.setInt(2, idTipoPrueba)
+            ps.setInt(2, idPrueba)
             ps.setString(3, estadoPrueba)
 
             ps.executeUpdate()
@@ -31,10 +31,10 @@ object ConexionCasilla {
         return cod
     }
 
-    fun getCasillaRandom(idPartida : Int) : Int {
-        var cod = 0
+    fun verTipoPrueba(idPartida: Int): ArrayList<Int> {
+        val ids = ArrayList<Int>()
 
-        val query = "SELECT id FROM ${Constantes.TablaCasilla} WHERE idPartida = ? ORDER BY RAND() LIMIT 1"
+        val query = "SELECT idPrueba FROM ${Constantes.TablaCasilla} WHERE idPartida = ?"
 
         try {
             Conexion.abrirConexion()
@@ -45,7 +45,7 @@ object ConexionCasilla {
             val rs = ps.executeQuery()
 
             while (rs.next()) {
-                cod = rs.getInt("id")
+                ids.add(rs.getInt("idPrueba"))
             }
 
             ps.close()
@@ -55,6 +55,6 @@ object ConexionCasilla {
             Conexion.cerrarConexion()
         }
 
-        return cod
+        return ids
     }
 }

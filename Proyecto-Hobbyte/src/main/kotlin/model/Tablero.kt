@@ -4,5 +4,5 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Tablero (
-    val casilla:String
+    val casillas: Array<Casilla>
 )

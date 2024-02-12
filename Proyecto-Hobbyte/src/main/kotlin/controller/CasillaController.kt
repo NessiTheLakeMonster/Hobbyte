@@ -1,6 +1,7 @@
 package controller
 
 import database.ConexionCasilla
+import database.ConexionPartida
 import model.Casilla
 import model.Respuesta
 
@@ -48,8 +49,11 @@ object CasillaController {
         var cod = 0
         var msg = ""
 
-        val casillas = ConexionCasilla.getCasillaRandom(idPartida)
-//        val pjJugado = PersonajeController.generarEstadoPj(idPartida, casillas)
+        val casillas = ConexionCasilla.insertarCasilla(idPartida, PruebaController.getIdPruebas().random(), "Prueba en curso")
+
+        // Se actualiza el número de casillas destapadas
+        val casillasDestapadas = ConexionPartida.getCasillasDestapadas(idPartida)
+        ConexionPartida.actualizarCasillasDestapadas(idPartida, casillasDestapadas + 1)
 
         if (casillas != null) {
             msg = "Casillas obtenidas correctamente ${casillas.toString()}"
@@ -62,20 +66,4 @@ object CasillaController {
         return Respuesta(msg, cod)
     }
 
-//    fun jugarCasilla(idCasilla : Int) : Respuesta {
-//        var cod = 0
-//        var msg = ""
-//
-//        val casilla = ConexionCasilla.
-//
-//        if (casilla != null) {
-//            msg = "Casilla obtenida correctamente ${casilla.toString()}"
-//            cod = 200
-//        } else {
-//            msg = "Error al obtener la casilla"
-//            cod = 400
-//        }
-//
-//        return Respuesta(msg, cod)
-//    }
 }

@@ -36,7 +36,6 @@ object PersonajeController {
         var cod = 0
 
         var insertado = ConexionPersonaje.generarEstadoPj(
-            estadoPersonaje.idUsuario,
             estadoPersonaje.idPartida,
             estadoPersonaje.idPersonaje,
             estadoPersonaje.capacidadActual

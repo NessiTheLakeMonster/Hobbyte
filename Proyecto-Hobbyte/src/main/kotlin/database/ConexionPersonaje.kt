@@ -2,6 +2,7 @@ package database
 
 import database.Conexion.abrirConexion
 import database.Conexion.cerrarConexion
+import model.Usuario
 import java.sql.SQLException
 
 object ConexionPersonaje {
@@ -32,20 +33,19 @@ object ConexionPersonaje {
         return cod
     }
 
-    fun generarEstadoPj(idUsuario: Int, idPartida: Int, idPersonaje: Int, capacidadActual: Int): Int {
+    fun generarEstadoPj(idPartida: Int, idPersonaje: Int, capacidadActual: Int): Int {
         var cod = 0
 
         val query =
-            "INSERT INTO " + Constantes.TablaEstadoPj + "(idUsuario, idPartida, idPersonaje, capacidadActual) VALUES (?, ?, ?, ?)"
+            "INSERT INTO " + Constantes.TablaEstadoPj + "(idPartida, idPersonaje, capacidadActual) VALUES (?, ?, ?)"
 
         try {
             abrirConexion()
             val ps = Conexion.conexion!!.prepareStatement(query)
 
-            ps.setInt(1, idUsuario)
-            ps.setInt(2, idPartida)
-            ps.setInt(3, idPersonaje)
-            ps.setInt(4, capacidadActual)
+            ps.setInt(1, idPartida)
+            ps.setInt(2, idPersonaje)
+            ps.setInt(3, capacidadActual)
 
             cod = ps.executeUpdate()
             ps.close()
