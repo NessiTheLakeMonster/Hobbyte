@@ -2,6 +2,8 @@ package controller
 
 import database.ConexionCasilla
 import database.ConexionPartida
+import database.ConexionPersonaje
+import database.ConexionPrueba
 import model.Casilla
 import model.Respuesta
 
@@ -45,25 +47,76 @@ object CasillaController {
         return casillas
     }
 
-    fun destaparCasilla(idPartida:Int): Respuesta {
+    fun destaparCasilla(idPartida: Int, idCasilla: Int): Respuesta {
         var cod = 0
         var msg = ""
 
-        val casillas = ConexionCasilla.insertarCasilla(idPartida, PruebaController.getIdPruebas().random(), "Prueba en curso")
+        val idPrueba = ConexionCasilla.verTipoPrueba(idCasilla, idPartida)
+        val casillasTotales = ConexionPartida.getCasillasTotales(idPartida)
+        ConexionPartida.actualizarCasillasDestapadas(idPartida, casillasTotales)
+        ConexionPartida.actualizarEstadoPartida(idPartida, "En juego")
 
-        // Se actualiza el número de casillas destapadas
-        val casillasDestapadas = ConexionPartida.getCasillasDestapadas(idPartida)
-        ConexionPartida.actualizarCasillasDestapadas(idPartida, casillasDestapadas + 1)
-
-        if (casillas != null) {
-            msg = "Casillas obtenidas correctamente ${casillas.toString()}"
+        if (idPrueba == 1) {
+            msg = "Prueba de magia"
+            cod = 200
+        } else if (idPrueba == 2) {
+            msg = "Prueba de fuerza"
+            cod = 200
+        } else if (idPrueba == 3) {
+            msg = "Prueba de habilidad"
             cod = 200
         } else {
-            msg = "Error al obtener las casillas"
+            msg = "Error al buscar la prueba"
             cod = 400
         }
 
         return Respuesta(msg, cod)
+    }
+
+    fun realizarPrueba(idPartida: Int, idCasilla: Int, idPersonaje: Int): Respuesta {
+        var cod = 0
+        var msg = ""
+
+        val capacidadActual = ConexionPersonaje.getCapacidadActual(idPartida, idPersonaje)
+        val idPrueba = ConexionCasilla.verTipoPrueba(idCasilla, idPartida)
+        val esfuerzo = ConexionPrueba.getEsfuerzo(idPrueba)
+        var actualizado = 0
+
+        if (capacidadActual > esfuerzo) {
+            val capacidadNueva = capacidadActual * 0.9
+            actualizado = ConexionPersonaje.actualizarCapacidadActual(idPartida, idPersonaje, capacidadNueva.toInt())
+        } else if (capacidadActual == esfuerzo) {
+            val capacidadNueva = capacidadActual * 0.7
+            actualizado = ConexionPersonaje.actualizarCapacidadActual(idPartida, idPersonaje, capacidadNueva.toInt())
+        } else if (capacidadActual < esfuerzo) {
+            val capacidadNueva = capacidadActual * 0.5
+            actualizado = ConexionPersonaje.actualizarCapacidadActual(idPartida, idPersonaje, capacidadNueva.toInt())
+        }
+
+        if (actualizado != 0) {
+            msg = "Prueba realizada correctamente"
+            cod = 200
+        } else {
+            msg = "Error al realizar la prueba"
+            cod = 400
+        }
+
+        return Respuesta(msg, cod)
+    }
+
+    fun ganarPartida(idPartida: Int): Boolean {
+        val casillasDestapadas = ConexionPartida.getCasillasDestapadas(idPartida)
+        val casillasTotales = ConexionPartida.getCasillasTotales(idPartida)
+        var ganar = false
+
+        if (casillasTotales / 2 == casillasDestapadas) {
+            ganar = true
+            ConexionPartida.actualizarEstadoPartida(idPartida, "Ganada")
+        } else {
+            ganar = false
+        }
+
+        return ganar
     }
 
 }

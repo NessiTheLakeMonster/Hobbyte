@@ -110,4 +110,28 @@ object ConexionPartida {
 
         return casillas
     }
+
+    fun actualizarEstadoPartida(idPartida: Int, estado: String): Int {
+        var cod = 0
+
+        val query = "UPDATE " + Constantes.TablaPartida + " SET estado = ? WHERE id = ?"
+
+        try {
+            abrirConexion()
+            val ps = Conexion.conexion!!.prepareStatement(query)
+
+            ps.setString(1, estado)
+            ps.setInt(2, idPartida)
+
+            cod = ps.executeUpdate()
+            ps.close()
+        } catch (sq: SQLException) {
+            println("Error al actualizar en la BD" + sq.message)
+            cod = sq.errorCode
+        } finally {
+            cerrarConexion()
+        }
+
+        return cod
+    }
 }

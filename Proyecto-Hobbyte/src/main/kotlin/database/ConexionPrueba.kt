@@ -53,4 +53,31 @@ object ConexionPrueba {
 
         return ids
     }
+
+    fun getEsfuerzo(idPrueba: Int): Int {
+        var esfuerzo = 0
+
+        val query = "SELECT esfuerzo FROM ${Constantes.TablaPruebas} WHERE id = ?"
+
+        try {
+            abrirConexion()
+            val ps = Conexion.conexion!!.prepareStatement(query)
+
+            ps.setInt(1, idPrueba)
+
+            val rs = ps.executeQuery()
+
+            if (rs.next()) {
+                esfuerzo = rs.getInt("esfuerzo")
+            }
+
+            ps.close()
+        } catch (sq: SQLException) {
+            println("Error al buscar en la BD" + sq.message)
+        } finally {
+            cerrarConexion()
+        }
+
+        return esfuerzo
+    }
 }

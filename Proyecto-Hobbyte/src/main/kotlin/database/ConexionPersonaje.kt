@@ -57,4 +57,84 @@ object ConexionPersonaje {
         }
         return cod
     }
+
+    fun getPersonajeUsuarioPartida(idUsuario: Int, idPartida: Int): List<Int> {
+        val ids = ArrayList<Int>()
+
+        val query = "SELECT " + Constantes.TablaPersonajes + ".id FROM " + Constantes.TablaPersonajes + " JOIN " +
+                Constantes.TablaUsuarios + " ON " + Constantes.TablaPersonajes + ".idUsuario = " + Constantes.TablaUsuarios +
+                ".id JOIN " + Constantes.TablaPartida + " ON " + Constantes.TablaUsuarios + ".id = " + Constantes.TablaPartida +
+                ".idUsuario WHERE " + Constantes.TablaUsuarios + ".id = ? AND " + Constantes.TablaPartida + ".id = ?"
+        try {
+            abrirConexion()
+            val ps = Conexion.conexion!!.prepareStatement(query)
+
+            ps.setInt(1, idUsuario)
+            ps.setInt(2, idPartida)
+
+            val rs = ps.executeQuery()
+
+            while (rs.next()) {
+                ids.add(rs.getInt("id"))
+            }
+
+            ps.close()
+        } catch (sq: SQLException) {
+            println("Error al buscar en la BD" + sq.message)
+        } finally {
+            cerrarConexion()
+        }
+
+        return ids
+    }
+
+    fun getCapacidadActual(idPartida: Int, idPersonaje: Int): Int {
+        var ids = 0
+
+        val query = "SELECT capacidadActual FROM " + Constantes.TablaEstadoPj + " WHERE idPartida = ? AND idPersonaje = ?"
+        try {
+            abrirConexion()
+            val ps = Conexion.conexion!!.prepareStatement(query)
+
+            ps.setInt(1, idPartida)
+            ps.setInt(2, idPersonaje)
+
+            val rs = ps.executeQuery()
+
+            if (rs.next()) {
+                ids = rs.getInt("capacidadActual")
+            }
+
+            ps.close()
+        } catch (sq: SQLException) {
+            println("Error al buscar en la BD" + sq.message)
+        } finally {
+            cerrarConexion()
+        }
+
+        return ids
+    }
+
+    fun actualizarCapacidadActual(idPartida: Int, idPersonaje: Int, capacidadActual: Int): Int {
+        var cod = 0
+
+        val query = "UPDATE " + Constantes.TablaEstadoPj + " SET capacidadActual = ? WHERE idPartida = ? AND idPersonaje = ?"
+        try {
+            abrirConexion()
+            val ps = Conexion.conexion!!.prepareStatement(query)
+
+            ps.setInt(1, capacidadActual)
+            ps.setInt(2, idPartida)
+            ps.setInt(3, idPersonaje)
+
+            cod = ps.executeUpdate()
+            ps.close()
+        } catch (sq: SQLException) {
+            println("Error al actualizar en la BD" + sq.message)
+            cod = sq.errorCode
+        } finally {
+            cerrarConexion()
+        }
+        return cod
+    }
 }
