@@ -51,18 +51,26 @@ object CasillaController {
         var cod = 0
         var msg = ""
 
+        val idUsuario = ConexionPartida.getIdUsuario(idPartida)
         val idPrueba = ConexionCasilla.verTipoPrueba(idCasilla, idPartida)
         val casillasTotales = ConexionPartida.getCasillasTotales(idPartida)
+
         ConexionPartida.actualizarCasillasDestapadas(idPartida, casillasTotales)
         ConexionPartida.actualizarEstadoPartida(idPartida, "En juego")
 
         if (idPrueba == 1) {
+            val idGandalf = ConexionPersonaje.getPersonajeTipoPrueba(idUsuario, idPartida, idPrueba)
+            this.realizarPrueba(idPartida, idCasilla, idGandalf)
             msg = "Prueba de magia"
             cod = 200
         } else if (idPrueba == 2) {
+            val idThorin = ConexionPersonaje.getPersonajeTipoPrueba(idUsuario, idPartida, idPrueba)
+            this.realizarPrueba(idPartida, idCasilla, idThorin)
             msg = "Prueba de fuerza"
             cod = 200
         } else if (idPrueba == 3) {
+            val idBilbo = ConexionPersonaje.getPersonajeTipoPrueba(idUsuario, idPartida, idPrueba)
+            this.realizarPrueba(idPartida, idCasilla, idBilbo)
             msg = "Prueba de habilidad"
             cod = 200
         } else {
@@ -82,18 +90,17 @@ object CasillaController {
         val esfuerzo = ConexionPrueba.getEsfuerzo(idPrueba)
         var actualizado = 0
 
-        if (capacidadActual > esfuerzo) {
-            val capacidadNueva = capacidadActual * 0.9
-            actualizado = ConexionPersonaje.actualizarCapacidadActual(idPartida, idPersonaje, capacidadNueva.toInt())
-        } else if (capacidadActual == esfuerzo) {
-            val capacidadNueva = capacidadActual * 0.7
-            actualizado = ConexionPersonaje.actualizarCapacidadActual(idPartida, idPersonaje, capacidadNueva.toInt())
-        } else if (capacidadActual < esfuerzo) {
-            val capacidadNueva = capacidadActual * 0.5
-            actualizado = ConexionPersonaje.actualizarCapacidadActual(idPartida, idPersonaje, capacidadNueva.toInt())
-        }
-
         if (actualizado != 0) {
+            if (capacidadActual > esfuerzo) {
+                val capacidadNueva = capacidadActual * 0.9
+                ConexionPersonaje.actualizarCapacidadActual(idPartida, idPersonaje, capacidadNueva.toInt())
+            } else if (capacidadActual == esfuerzo) {
+                val capacidadNueva = capacidadActual * 0.7
+                ConexionPersonaje.actualizarCapacidadActual(idPartida, idPersonaje, capacidadNueva.toInt())
+            } else if (capacidadActual < esfuerzo) {
+                val capacidadNueva = capacidadActual * 0.5
+                ConexionPersonaje.actualizarCapacidadActual(idPartida, idPersonaje, capacidadNueva.toInt())
+            }
             msg = "Prueba realizada correctamente"
             cod = 200
         } else {

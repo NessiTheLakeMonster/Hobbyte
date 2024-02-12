@@ -134,4 +134,31 @@ object ConexionPartida {
 
         return cod
     }
+
+    fun getIdUsuario(idPartida: Int): Int {
+        var id = 0
+
+        val query = "SELECT idUsuario FROM " + Constantes.TablaPartida + " WHERE id = ?"
+
+        try {
+            abrirConexion()
+            val ps = Conexion.conexion!!.prepareStatement(query)
+
+            ps.setInt(1, idPartida)
+
+            val rs = ps.executeQuery()
+
+            while (rs.next()) {
+                id = rs.getInt("idUsuario")
+            }
+
+            ps.close()
+        } catch (sq: SQLException) {
+            println("Error al buscar en la BD" + sq.message)
+        } finally {
+            cerrarConexion()
+        }
+
+        return id
+    }
 }

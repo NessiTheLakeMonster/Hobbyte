@@ -88,10 +88,44 @@ object ConexionPersonaje {
         return ids
     }
 
+    fun getPersonajeTipoPrueba(idUsuario: Int, idPartida: Int, idTipoPrueba: Int): Int {
+        var id = 0
+
+        val query = "SELECT " + Constantes.TablaPersonajes + ".id FROM " + Constantes.TablaPersonajes + " JOIN " +
+                Constantes.TablaUsuarios + " ON " + Constantes.TablaPersonajes + ".idUsuario = " + Constantes.TablaUsuarios +
+                ".id JOIN " + Constantes.TablaPartida + " ON " + Constantes.TablaUsuarios + ".id = " + Constantes.TablaPartida +
+                ".idUsuario WHERE " + Constantes.TablaUsuarios + ".id = ? AND " + Constantes.TablaPartida + ".id = ? AND " +
+                Constantes.TablaPersonajes + ".idTipoPrueba = ?"
+
+        try {
+            abrirConexion()
+            val ps = Conexion.conexion!!.prepareStatement(query)
+
+            ps.setInt(1, idUsuario)
+            ps.setInt(2, idPartida)
+            ps.setInt(3, idTipoPrueba)
+
+            val rs = ps.executeQuery()
+
+            if (rs.next()) {
+                id = rs.getInt("idTipoPrueba")
+            }
+
+            ps.close()
+        } catch (sq: SQLException) {
+            println("Error al buscar en la BD" + sq.message)
+        } finally {
+            cerrarConexion()
+        }
+
+        return id
+    }
+
     fun getCapacidadActual(idPartida: Int, idPersonaje: Int): Int {
         var ids = 0
 
-        val query = "SELECT capacidadActual FROM " + Constantes.TablaEstadoPj + " WHERE idPartida = ? AND idPersonaje = ?"
+        val query =
+            "SELECT capacidadActual FROM " + Constantes.TablaEstadoPj + " WHERE idPartida = ? AND idPersonaje = ?"
         try {
             abrirConexion()
             val ps = Conexion.conexion!!.prepareStatement(query)
@@ -118,7 +152,8 @@ object ConexionPersonaje {
     fun actualizarCapacidadActual(idPartida: Int, idPersonaje: Int, capacidadActual: Int): Int {
         var cod = 0
 
-        val query = "UPDATE " + Constantes.TablaEstadoPj + " SET capacidadActual = ? WHERE idPartida = ? AND idPersonaje = ?"
+        val query =
+            "UPDATE " + Constantes.TablaEstadoPj + " SET capacidadActual = ? WHERE idPartida = ? AND idPersonaje = ?"
         try {
             abrirConexion()
             val ps = Conexion.conexion!!.prepareStatement(query)
