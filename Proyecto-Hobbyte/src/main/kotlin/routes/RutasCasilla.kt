@@ -88,16 +88,10 @@ fun Route.casillaRouting() {
                         status = HttpStatusCode.BadRequest
                     )
 
-                    val casillas = call.parameters["casillas_totales"] ?: return@post call.respondText(
-                        "casillas vacío en la url",
-                        status = HttpStatusCode.BadRequest
-                    )
-
                     val par = partida.toInt()
-                    val cas = casillas.toInt()
 
-                    PartidaController.generarPartidaCustom(par, cas)
-                    call.respondText("Partida creada", status = HttpStatusCode.Created)
+                    val respuesta = CasillaController.generateCasillas(par)
+                    call.respond(respuesta)
 
                 } else {
 
@@ -107,6 +101,5 @@ fun Route.casillaRouting() {
 
             }
         }
-
     }
 }

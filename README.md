@@ -16,8 +16,16 @@ Proyecto realizado por Inés Mª Barrera Llerena
 - Ruta : `http://192.168.0.29:8090/crearPersonajes/{idUsuario}`
 
 4º - Crear la partida
+- Ruta : `http://192.168.0.21:8090/generarPartida`
 
 5º - Generar las casillas pertenecientes a esa partida 
+- Ruta : `http://192.168.0.21:8090/generarCasillas/{idPartida}`
+
+6º - Generar los estados de los personajes
+- Ruta : `http://192.168.0.21:8090/generarEstadoPj/{idPartida}/{idUsuario}`
+
+6º - A jugar!!
+- Ruta : `http://192.168.0.21:8090/destaparCasilla/{idCasilla}/{idPartida}`
 
 ---
 # Manual del Administrador

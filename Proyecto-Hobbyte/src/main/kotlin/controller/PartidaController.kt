@@ -100,31 +100,6 @@ object PartidaController {
         return RespuestaConTablero(msg, cod, tablero)
     }
 
-    fun actualizarCasillasDestapadas(idPartida: Int, casillas_destapadas: Int): RespuestaConTablero {
-        var cod = 0
-
-        var insertado = ConexionPartida.actualizarCasillasDestapadas(
-            idPartida,
-            casillas_destapadas
-        )
-
-        var msg = ""
-        var tablero = ArrayList<Char>()
-        val casillas_totales = ConexionPartida.getCasillasTotales(idPartida)
-
-        if (insertado != 0) {
-            msg = "Casillas destapadas actualizadas correctamente"
-            cod = HttpStatusCode.Created.value
-            tablero = pintarTablero(casillas_totales, casillas_destapadas)
-        } else {
-            msg = "Error al actualizar las casillas destapadas"
-            cod = HttpStatusCode.BadRequest.value
-            tablero = pintarTablero(casillas_totales, casillas_destapadas)
-        }
-
-        return RespuestaConTablero(msg, cod, tablero)
-    }
-
     fun generarPartida(idPartida: Int): List<Int> {
         val ids = PruebaController.getIdPruebas()
         ids.shuffled()
