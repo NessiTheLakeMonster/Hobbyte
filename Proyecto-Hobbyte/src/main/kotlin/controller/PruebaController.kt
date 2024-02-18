@@ -8,12 +8,12 @@ import model.Respuesta
 
 object PruebaController {
 
-    fun addPruebas(): Respuesta {
+    fun addPruebas(cantidad: Int): Respuesta {
         var cod = 0
         var msg = ""
 
         val factory = PruebaFactory()
-        val pruebas = factory.generatePruebas()
+        val pruebas = factory.generatePruebas(cantidad)
 
         for (prueba in pruebas) {
             val insertado = ConexionPrueba.insertarPruebas(

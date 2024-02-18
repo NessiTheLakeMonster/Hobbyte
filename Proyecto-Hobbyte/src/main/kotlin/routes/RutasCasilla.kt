@@ -2,8 +2,13 @@ package routes
 
 import controller.CasillaController
 import controller.PartidaController
+import controller.UsuarioController
+import database.ConexionCasilla
+import database.ConexionPartida
 import io.ktor.http.*
 import io.ktor.server.application.*
+import io.ktor.server.auth.*
+import io.ktor.server.auth.jwt.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import model.Partida
@@ -23,18 +28,78 @@ fun Route.casillaRouting() {
         }
     }
 
-    route("/destaparCasilla/{idPartida}") {
-        get {
-            val partida = call.parameters["idPartida"] ?: return@get call.respondText(
-                "id vacío en la url",
-                status = HttpStatusCode.BadRequest
-            )
 
-            val par = partida.toInt()
+    route("/destaparCasilla/{idCasilla}/{idPartida}") {
+        authenticate {
+            get {
+                val principal = call.principal<JWTPrincipal>()
+                var emailSolicitante = principal!!.payload.getClaim("email").asString()
 
-            val respuesta = CasillaController.destaparCasilla(par)
+                println(emailSolicitante)
+                emailSolicitante = emailSolicitante.replace("\"", "")
+                var user = UsuarioController.getUsuario(emailSolicitante)
 
-            call.respond(respuesta)
+                if (user != null) {
+
+                    println("Usuario encontrado")
+
+                    val partida = call.parameters["idPartida"] ?: return@get call.respondText(
+                        "id vacío en la url",
+                        status = HttpStatusCode.BadRequest
+                    )
+
+                    val casilla = call.parameters["idCasilla"] ?: return@get call.respondText(
+                        "id vacío en la url",
+                        status = HttpStatusCode.BadRequest
+                    )
+
+                    val par = partida.toInt()
+                    val cas = casilla.toInt()
+
+                    val respuesta = CasillaController.destaparCasilla(par, cas)
+
+                    call.respond(respuesta)
+
+                } else {
+
+                    println("Usuario no encontrado")
+                    call.respondText("Usuario no encontrado", status = HttpStatusCode.NotFound)
+                }
+            }
+        }
+    }
+
+    route("/generarCasillas/{idPartida}") {
+        authenticate {
+            post {
+                val principal = call.principal<JWTPrincipal>()
+                var emailSolicitante = principal!!.payload.getClaim("email").asString()
+
+                println(emailSolicitante)
+                emailSolicitante = emailSolicitante.replace("\"", "")
+                var user = UsuarioController.getUsuario(emailSolicitante)
+
+                if (user != null) {
+
+                    println("Usuario encontrado")
+
+                    val partida = call.parameters["idPartida"] ?: return@post call.respondText(
+                        "id vacío en la url",
+                        status = HttpStatusCode.BadRequest
+                    )
+
+                    val par = partida.toInt()
+
+                    val respuesta = CasillaController.generateCasillas(par)
+                    call.respond(respuesta)
+
+                } else {
+
+                    println("Usuario no encontrado")
+                    call.respondText("Usuario no encontrado", status = HttpStatusCode.NotFound)
+                }
+
+            }
         }
     }
 }

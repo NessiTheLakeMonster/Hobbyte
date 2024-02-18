@@ -21,10 +21,10 @@ class PruebaFactory {
         return esfuerzo[random]
     }
 
-    fun generatePruebas(): List<Prueba> {
+    fun generatePruebas(cantidad: Int): List<Prueba> {
         val pruebas = mutableListOf<Prueba>()
 
-        for (i in 1..20) {
+        for (i in 1..cantidad) {
             val tipo = randomTipos()
             val esfuerzo = randomEsfuerzo()
             val prueba = Prueba(tipo, esfuerzo)

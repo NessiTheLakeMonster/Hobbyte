@@ -3,4 +3,7 @@ package model
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Respuesta(val message: String, val status: Int)
+data class Respuesta(
+    val message: String, 
+    val status: Int
+)

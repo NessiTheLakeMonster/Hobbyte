@@ -50,22 +50,22 @@ object UsuarioController {
     }
 
     fun logout(token: String): Respuesta {
-    var cod = 0
+        var cod = 0
 
-    // Remove the token from the list of active tokens
-    val logoutSuccessful = Revoked.revoked.remove(token)
+        // Remove the token from the list of active tokens
+        val logoutSuccessful = Revoked.revoked.remove(token)
 
-    var msg = ""
+        var msg = ""
 
-    if (logoutSuccessful) {
-        msg = "Logout con exito"
-        cod = HttpStatusCode.OK.value
-    } else {
-        msg = "Error al hacer logout"
-        cod = HttpStatusCode.BadRequest.value
+        if (logoutSuccessful) {
+            msg = "Logout con exito"
+            cod = HttpStatusCode.OK.value
+        } else {
+            msg = "Error al hacer logout"
+            cod = HttpStatusCode.BadRequest.value
+        }
+
+        return Respuesta(msg, cod)
     }
-
-    return Respuesta(msg, cod)
-}
 
 }

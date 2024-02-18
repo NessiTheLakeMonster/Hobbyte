@@ -1,6 +1,9 @@
 package controller
 
 import database.ConexionCasilla
+import database.ConexionPartida
+import database.ConexionPersonaje
+import database.ConexionPrueba
 import model.Casilla
 import model.Respuesta
 
@@ -44,38 +47,83 @@ object CasillaController {
         return casillas
     }
 
-    fun destaparCasilla(idPartida:Int): Respuesta {
+    fun destaparCasilla(idPartida: Int, idCasilla: Int): Respuesta {
         var cod = 0
         var msg = ""
 
-        val casillas = ConexionCasilla.getCasillaRandom(idPartida)
-//        val pjJugado = PersonajeController.generarEstadoPj(idPartida, casillas)
+        val idUsuario = ConexionPartida.getIdUsuario(idPartida)
+        val idPrueba = ConexionCasilla.verTipoPrueba(idCasilla, idPartida)
+        val casillasTotales = ConexionPartida.getCasillasTotales(idPartida)
 
-        if (casillas != null) {
-            msg = "Casillas obtenidas correctamente ${casillas.toString()}"
+        ConexionPartida.actualizarCasillasDestapadas(idPartida, casillasTotales)
+        ConexionPartida.actualizarEstadoPartida(idPartida, "En juego")
+
+        if (idPrueba == 1) {
+            val idGandalf = ConexionPersonaje.getPersonajeTipoPrueba(idUsuario, idPartida, idPrueba)
+            this.realizarPrueba(idPartida, idCasilla, idGandalf)
+            msg = "Prueba de magia"
+            cod = 200
+        } else if (idPrueba == 2) {
+            val idThorin = ConexionPersonaje.getPersonajeTipoPrueba(idUsuario, idPartida, idPrueba)
+            this.realizarPrueba(idPartida, idCasilla, idThorin)
+            msg = "Prueba de fuerza"
+            cod = 200
+        } else if (idPrueba == 3) {
+            val idBilbo = ConexionPersonaje.getPersonajeTipoPrueba(idUsuario, idPartida, idPrueba)
+            this.realizarPrueba(idPartida, idCasilla, idBilbo)
+            msg = "Prueba de habilidad"
             cod = 200
         } else {
-            msg = "Error al obtener las casillas"
+            msg = "Error al buscar la prueba"
             cod = 400
         }
 
         return Respuesta(msg, cod)
     }
 
-//    fun jugarCasilla(idCasilla : Int) : Respuesta {
-//        var cod = 0
-//        var msg = ""
-//
-//        val casilla = ConexionCasilla.
-//
-//        if (casilla != null) {
-//            msg = "Casilla obtenida correctamente ${casilla.toString()}"
-//            cod = 200
-//        } else {
-//            msg = "Error al obtener la casilla"
-//            cod = 400
-//        }
-//
-//        return Respuesta(msg, cod)
-//    }
+    fun realizarPrueba(idPartida: Int, idCasilla: Int, idPersonaje: Int): Respuesta {
+        var cod = 0
+        var msg = ""
+
+        val capacidadActual = ConexionPersonaje.getCapacidadActual(idPartida, idPersonaje)
+        val idPrueba = ConexionCasilla.verTipoPrueba(idCasilla, idPartida)
+        val esfuerzo = ConexionPrueba.getEsfuerzo(idPrueba)
+        var actualizado = 0
+
+        if (actualizado != 0) {
+            if (capacidadActual > esfuerzo) {
+                val capacidadNueva = capacidadActual * 0.9
+                ConexionPersonaje.actualizarCapacidadActual(idPartida, idPersonaje, capacidadNueva.toInt())
+            } else if (capacidadActual == esfuerzo) {
+                val capacidadNueva = capacidadActual * 0.7
+                ConexionPersonaje.actualizarCapacidadActual(idPartida, idPersonaje, capacidadNueva.toInt())
+            } else if (capacidadActual < esfuerzo) {
+                val capacidadNueva = capacidadActual * 0.5
+                ConexionPersonaje.actualizarCapacidadActual(idPartida, idPersonaje, capacidadNueva.toInt())
+            }
+            msg = "Prueba realizada correctamente"
+            cod = 200
+        } else {
+            msg = "Error al realizar la prueba"
+            cod = 400
+        }
+
+        return Respuesta(msg, cod)
+    }
+
+    fun ganarPartida(idPartida: Int): Boolean {
+        val casillasDestapadas = ConexionPartida.getCasillasDestapadas(idPartida)
+        val casillasTotales = ConexionPartida.getCasillasTotales(idPartida)
+        var ganar = false
+
+        if (casillasTotales / 2 == casillasDestapadas) {
+            ganar = true
+            ConexionPartida.actualizarEstadoPartida(idPartida, "Ganada")
+        } else {
+            ganar = false
+        }
+
+        return ganar
+    }
+
 }
