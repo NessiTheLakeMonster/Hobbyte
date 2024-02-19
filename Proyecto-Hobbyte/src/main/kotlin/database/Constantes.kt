@@ -4,7 +4,7 @@ object Constantes {
     val servidor = "localhost"
     val puerto = 3306
 
-    var bbdd = "hobbyte"
+    var bbdd = "hobbyte_2"
     var usuario = "root"
     var passwd = ""
 
@@ -14,4 +14,5 @@ object Constantes {
     var TablaPartida = "partida"
     var TablaCasilla = "casilla"
     var TablaEstadoPj = "estado_personaje"
+    var TablaTipoPrueba = "tipo_prueba"
 }

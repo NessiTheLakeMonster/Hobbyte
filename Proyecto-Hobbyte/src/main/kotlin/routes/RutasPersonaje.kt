@@ -50,7 +50,7 @@ fun Route.personajeRouting() {
         }
     }
 
-    route("/generarEstadoPj/{idPartida}/{idUsuario}") {
+    route("/generarEstadoPj/{idPartida}") {
         authenticate {
             post {
                 val principal = call.principal<JWTPrincipal>()
