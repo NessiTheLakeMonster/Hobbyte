@@ -31,13 +31,11 @@ object ConexionCasilla {
         return cod
     }
 
-    fun verTipoPrueba(idCasilla: Int, idPartida: Int): Int {
+    fun verPruebaCasilla(idCasilla: Int, idPartida: Int): Int {
         var ids = 0
 
         val query =
-            "SELECT idTipoPrueba FROM " + Constantes.TablaPruebas + " INNER JOIN " + Constantes.TablaCasilla + " ON " +
-                    Constantes.TablaPruebas + ".id = " + Constantes.TablaCasilla + ".idPrueba WHERE " +
-                    Constantes.TablaCasilla + ".id = ? AND " + Constantes.TablaCasilla + ".idPartida = ?"
+            "SELECT idPrueba FROM " + Constantes.TablaCasilla + " WHERE id = ? AND idPartida = ?"
 
         try {
             Conexion.abrirConexion()
@@ -49,7 +47,7 @@ object ConexionCasilla {
             val rs = ps.executeQuery()
 
             if (rs.next()) {
-                ids = rs.getInt("idTipoPrueba")
+                ids = rs.getInt("idPrueba")
             }
 
             ps.close()
@@ -62,25 +60,24 @@ object ConexionCasilla {
         return ids
     }
 
-    fun verCapacidadPrueba(idCasilla: Int, idPartida: Int): Int {
-        var ids = 0
+    fun verTipoPrueba(idCasilla: Int): Int {
+        var id = 0
 
         val query =
-            "SELECT capacidadPrueba FROM " + Constantes.TablaPruebas + " JOIN " + Constantes.TablaCasilla + " ON " +
+            "SELECT " + Constantes.TablaPruebas + ".idTipoPrueba FROM " + Constantes.TablaPruebas + " JOIN " + Constantes.TablaCasilla + " ON " +
                     Constantes.TablaPruebas + ".id = " + Constantes.TablaCasilla + ".idPrueba WHERE " +
-                    Constantes.TablaCasilla + ".id = ? AND " + Constantes.TablaCasilla + ".idPartida = ?"
+                    Constantes.TablaCasilla + ".id = ?"
 
         try {
             Conexion.abrirConexion()
             val ps = Conexion.conexion!!.prepareStatement(query)
 
             ps.setInt(1, idCasilla)
-            ps.setInt(2, idPartida)
 
             val rs = ps.executeQuery()
 
             if (rs.next()) {
-                ids = rs.getInt("capacidadPrueba")
+                id = rs.getInt("idTipoPrueba")
             }
 
             ps.close()
@@ -90,7 +87,7 @@ object ConexionCasilla {
             Conexion.cerrarConexion()
         }
 
-        return ids
+        return id
     }
 
     fun actualizarEstadoCasilla(idCasilla: Int, idPartida: Int, estado: String): Int {

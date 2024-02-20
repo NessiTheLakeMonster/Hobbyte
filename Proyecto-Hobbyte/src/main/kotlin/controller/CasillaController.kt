@@ -53,8 +53,12 @@ object CasillaController {
         var msg = ""
 
         val idUsuario = ConexionPartida.getIdUsuario(idPartida)
-        val idPrueba = ConexionCasilla.verTipoPrueba(idCasilla, idPartida)
+        val idPrueba = ConexionCasilla.verTipoPrueba(idCasilla)
         val casillasTotales = ConexionPartida.getCasillasTotales(idPartida)
+        var resultado = Respuesta("", 0)
+
+        println("idCasilla: $idCasilla")
+        println("idPrueba: $idPrueba")
 
         if (ConexionPartida.getEstadoPartida(idPartida) == "Ganada") {
 
@@ -73,18 +77,21 @@ object CasillaController {
 
             if (idPrueba == 1) {
                 val idGandalf = ConexionPersonaje.getPersonajeTipoPrueba(idUsuario, idPartida, idPrueba)
-                realizarPrueba(idPartida, idCasilla, idGandalf)
-                msg = "Prueba de magia"
+                println(idGandalf)
+                resultado = realizarPrueba(idPartida, idCasilla, idGandalf)
+                msg = "Prueba de magia, ${resultado.message}"
                 cod = 200
             } else if (idPrueba == 2) {
                 val idThorin = ConexionPersonaje.getPersonajeTipoPrueba(idUsuario, idPartida, idPrueba)
-                realizarPrueba(idPartida, idCasilla, idThorin)
-                msg = "Prueba de fuerza"
+                println(idThorin)
+                resultado = realizarPrueba(idPartida, idCasilla, idThorin)
+                msg = "Prueba de fuerza, ${resultado.message}"
                 cod = 200
             } else if (idPrueba == 3) {
                 val idBilbo = ConexionPersonaje.getPersonajeTipoPrueba(idUsuario, idPartida, idPrueba)
-                realizarPrueba(idPartida, idCasilla, idBilbo)
-                msg = "Prueba de habilidad"
+                println(idBilbo)
+                resultado = realizarPrueba(idPartida, idCasilla, idBilbo)
+                msg = "Prueba de habilidad, ${resultado.message}"
                 cod = 200
             } else {
                 msg = "Error al buscar la prueba"
@@ -101,14 +108,20 @@ object CasillaController {
 
         val capacidadActual = ConexionPersonaje.getCapacidadActual(idPartida, idPersonaje)
         var capacidadNueva: Int = 0
-        val idPrueba = ConexionCasilla.verTipoPrueba(idCasilla, idPartida)
+        val idPrueba = ConexionCasilla.verPruebaCasilla(idCasilla, idPartida)
         val esfuerzo = ConexionPrueba.getEsfuerzo(idPrueba)
         val random = Random.Default
         var superada: Boolean = false
 
+        println(idPersonaje)
+        println(idPartida)
+        println(idCasilla)
+        println(idPrueba)
+
         if (capacidadActual > esfuerzo) {
             if (random.nextInt(100) < 90) {
                 capacidadNueva = capacidadActual - esfuerzo
+                println("capacidad nueva $capacidadNueva, capacidad actual $capacidadActual ,esfuerzo $esfuerzo")
                 superada = true
             } else {
                 capacidadNueva = 0
@@ -117,6 +130,7 @@ object CasillaController {
         } else if (capacidadActual == esfuerzo) {
             if (random.nextInt(100) < 70) {
                 capacidadNueva = capacidadActual - esfuerzo
+                println("capacidad nueva $capacidadNueva, capacidad actual $capacidadActual ,esfuerzo $esfuerzo")
                 superada = true
             } else {
                 capacidadNueva = 0
@@ -125,6 +139,7 @@ object CasillaController {
         } else if (capacidadActual < esfuerzo) {
             if (random.nextInt(100) < 50) {
                 capacidadNueva = capacidadActual - esfuerzo
+                println("capacidad nueva $capacidadNueva, capacidad actual $capacidadActual ,esfuerzo $esfuerzo")
                 superada = true
             } else {
                 capacidadNueva = 0
@@ -162,18 +177,21 @@ object CasillaController {
         return ganar
     }
 
-    fun perderPartida(idPartida: Int): Boolean {
-        val casillasDestapadas = ConexionPartida.getCasillasDestapadas(idPartida)
-        val casillasTotales = ConexionPartida.getCasillasTotales(idPartida)
+    fun perderPartida(idPartida: Int, idUsuario: Int): Boolean {
+
         var perder = false
+        val personajes = ConexionPersonaje.getPersonajeUsuarioPartida(idUsuario, idPartida)
 
-
-        if (casillasTotales / 2 < casillasDestapadas) {
-            perder = true
-            ConexionPartida.actualizarEstadoPartida(idPartida, "Perdida")
-        } else {
-            perder = false
+        for (personaje in personajes) {
+            val capacidadActual = ConexionPersonaje.getCapacidadActual(idPartida, personaje)
+            if (capacidadActual == 0) {
+                perder = true
+                ConexionPartida.actualizarEstadoPartida(idPartida, "Perdida")
+            } else {
+                perder = false
+            }
         }
+
 
         return perder
     }

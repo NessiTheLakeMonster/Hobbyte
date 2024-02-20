@@ -4,13 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="0f35cf9c-b431-4e06-b887-8bfd7c37a312" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Proyecto-Hobbyte/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/Proyecto-Hobbyte/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Proyecto-Hobbyte/src/main/kotlin/com/example/Application.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Proyecto-Hobbyte/src/main/kotlin/com/example/Application.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Proyecto-Hobbyte/src/main/kotlin/routes/RutasCasilla.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Proyecto-Hobbyte/src/main/kotlin/routes/RutasCasilla.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-    </list>
+    <list default="true" id="0f35cf9c-b431-4e06-b887-8bfd7c37a312" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

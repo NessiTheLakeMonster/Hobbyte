@@ -90,7 +90,7 @@ fun Route.casillaRouting() {
 
                     val par = partida.toInt()
 
-                    val respuesta = CasillaController.generateCasillas(par)
+                    val respuesta = CasillaController.crearCasilla(par)
                     call.respond(respuesta)
 
                 } else {
