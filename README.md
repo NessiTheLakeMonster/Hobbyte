@@ -80,6 +80,8 @@ Proyecto realizado por Inés Mª Barrera Llerena
 ### Insertar las pruebas
 - Ruta : `http://192.168.0.29:8090/insertarPruebas`
 - Verbo : `POST`
+- Parámetros necesarios:
+  - `Bearer Token`
 
 ## Rutas para los personajes
 
@@ -88,10 +90,19 @@ Proyecto realizado por Inés Mª Barrera Llerena
 - Verbo : `POST`
 - Parámetros necesarios:
   - `idUsuario` -> la id del usuario del que van a ser los personajes
+  - `Bearer Token`
+
+### Creación de los estados de los personajes
+- Ruta : `http://192.168.0.21:8090/generarEstadoPj/{idPartida}/{idUsuario}`
+- Verbo : `POST`
+- Parámetros necesarios:
+  - `idUsuario` -> la id del usuario del que van a ser los personajes
+  - `idPartida` -> la id de la partida a la que pertenecen
+  - `Bearer Token`
 
 ## Rutas para las partidas
 
-### Creación de una partida [RUTA PROTEGIDA CON TOKEN]
+### Creación de una partida 
 - Ruta : `http://192.168.0.29:8090/generarPartida/{idUsuario}`
 - Verbo : `POST`
 - Parámetros necesarios:
@@ -101,6 +112,23 @@ Proyecto realizado por Inés Mª Barrera Llerena
 ### Comprobar tablero de la partida
 - Ruta: `http://192.168.0.21:8090/verTablero/{idPartida}`
 - `GET`
+
+## Rutas para las casillas
+
+#### Generación de las casillas
+- Ruta : `http://192.168.0.21:8090/generarCasillas/{idPartida}`
+- Verbo : `POST`
+- Parámetros necesarios:
+  - `idPartida` -> la id de la partida a la que pertenecen
+  - `Bearer Token`
+
+#### Destapar una casilla
+- Ruta : `http://192.168.0.21:8090/destaparCasilla/{idCasilla}/{idPartida}`
+- Verbo : `POST`
+- Parámetros necesarios:
+  - `idCasilla` -> la id de la casilla que se va a destapar
+  - `idPartida` -> la id de la partida a la que pertenecen
+  - `Bearer Token`
 
 ----
 # Enunciado

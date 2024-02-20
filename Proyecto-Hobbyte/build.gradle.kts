@@ -39,4 +39,5 @@ dependencies {
 
     implementation("io.ktor:ktor-server-auth:$ktor_version")
     implementation("io.ktor:ktor-server-auth-jwt:$ktor_version")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.13.1")
 }

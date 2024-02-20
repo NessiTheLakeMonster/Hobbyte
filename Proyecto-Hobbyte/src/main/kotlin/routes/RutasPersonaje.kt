@@ -77,7 +77,7 @@ fun Route.personajeRouting() {
                     val par = partida.toInt()
                     val us = idUsuario.toInt()
 
-                    val ids = ConexionPersonaje.getPersonajeUsuarioPartida(par, us)
+                    val ids = ConexionPersonaje.getPersonajeUsuarioPartida(us, par)
 
                     for (i in ids) {
                         PersonajeController.generarEstadoPj(EstadoPersonaje(par, i, 50))

@@ -32,6 +32,8 @@ object PersonajeController {
     fun generarEstadoPj(estadoPersonaje: EstadoPersonaje): Respuesta {
         var cod = 0
 
+        ConexionPersonaje.getPersonajeUsuarioPartida(estadoPersonaje.idPersonaje, estadoPersonaje.idPartida)
+
         var insertado = ConexionPersonaje.generarEstadoPj(
             estadoPersonaje.idPartida,
             estadoPersonaje.idPersonaje,

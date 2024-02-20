@@ -108,7 +108,7 @@ object ConexionPersonaje {
             val rs = ps.executeQuery()
 
             if (rs.next()) {
-                id = rs.getInt("idTipoPrueba")
+                id = rs.getInt("id")
             }
 
             ps.close()

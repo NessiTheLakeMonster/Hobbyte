@@ -161,4 +161,31 @@ object ConexionPartida {
 
         return id
     }
+
+    fun getEstadoPartida(idPartida: Int): String {
+        var estado = ""
+
+        val query = "SELECT estado FROM " + Constantes.TablaPartida + " WHERE id = ?"
+
+        try {
+            abrirConexion()
+            val ps = Conexion.conexion!!.prepareStatement(query)
+
+            ps.setInt(1, idPartida)
+
+            val rs = ps.executeQuery()
+
+            while (rs.next()) {
+                estado = rs.getString("estado")
+            }
+
+            ps.close()
+        } catch (sq: SQLException) {
+            println("Error al buscar en la BD" + sq.message)
+        } finally {
+            cerrarConexion()
+        }
+
+        return estado
+    }
 }
