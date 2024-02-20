@@ -115,4 +115,32 @@ object ConexionCasilla {
 
         return cod
     }
+
+    fun getEstadoCasilla(idCasilla: Int): String {
+        var estado = ""
+
+        val query =
+            "SELECT estadoPrueba FROM " + Constantes.TablaCasilla + " WHERE id = ?"
+
+        try {
+            Conexion.abrirConexion()
+            val ps = Conexion.conexion!!.prepareStatement(query)
+
+            ps.setInt(1, idCasilla)
+
+            val rs = ps.executeQuery()
+
+            if (rs.next()) {
+                estado = rs.getString("estadoPrueba")
+            }
+
+            ps.close()
+        } catch (sq: SQLException) {
+            println("Error al buscar en la BD" + sq.message)
+        } finally {
+            Conexion.cerrarConexion()
+        }
+
+        return estado
+    }
 }

@@ -72,32 +72,49 @@ object CasillaController {
 
         } else {
 
-            ConexionPartida.actualizarCasillasDestapadas(idPartida, casillasTotales)
-            ConexionPartida.actualizarEstadoPartida(idPartida, "En juego")
+            if (ConexionCasilla.getEstadoCasilla(idCasilla) == "Prueba no comenzada") {
 
-            if (idPrueba == 1) {
-                val idGandalf = ConexionPersonaje.getPersonajeTipoPrueba(idUsuario, idPartida, idPrueba)
-                println(idGandalf)
-                resultado = realizarPrueba(idPartida, idCasilla, idGandalf)
-                msg = "Prueba de magia, ${resultado.message}"
-                cod = 200
-            } else if (idPrueba == 2) {
-                val idThorin = ConexionPersonaje.getPersonajeTipoPrueba(idUsuario, idPartida, idPrueba)
-                println(idThorin)
-                resultado = realizarPrueba(idPartida, idCasilla, idThorin)
-                msg = "Prueba de fuerza, ${resultado.message}"
-                cod = 200
-            } else if (idPrueba == 3) {
-                val idBilbo = ConexionPersonaje.getPersonajeTipoPrueba(idUsuario, idPartida, idPrueba)
-                println(idBilbo)
-                resultado = realizarPrueba(idPartida, idCasilla, idBilbo)
-                msg = "Prueba de habilidad, ${resultado.message}"
-                cod = 200
+                ConexionPartida.actualizarCasillasDestapadas(idPartida, casillasTotales)
+                ConexionPartida.actualizarEstadoPartida(idPartida, "En juego")
+
+                if (idPrueba == 1) {
+                    val idGandalf = ConexionPersonaje.getPersonajeTipoPrueba(idUsuario, idPartida, idPrueba)
+                    println(idGandalf)
+                    resultado = realizarPrueba(idPartida, idCasilla, idGandalf)
+                    msg = "Prueba de magia, ${resultado.message}"
+                    cod = 200
+                } else if (idPrueba == 2) {
+                    val idThorin = ConexionPersonaje.getPersonajeTipoPrueba(idUsuario, idPartida, idPrueba)
+                    println(idThorin)
+                    resultado = realizarPrueba(idPartida, idCasilla, idThorin)
+                    msg = "Prueba de fuerza, ${resultado.message}"
+                    cod = 200
+                } else if (idPrueba == 3) {
+                    val idBilbo = ConexionPersonaje.getPersonajeTipoPrueba(idUsuario, idPartida, idPrueba)
+                    println(idBilbo)
+                    resultado = realizarPrueba(idPartida, idCasilla, idBilbo)
+                    msg = "Prueba de habilidad, ${resultado.message}"
+                    cod = 200
+                } else {
+                    msg = "Error al buscar la prueba"
+                    cod = 400
+                }
+
+            } else if (ConexionCasilla.getEstadoCasilla(idCasilla) == "Prueba superada") {
+                msg = "La prueba de esta casilla ya ha sido superada, escoja otra casilla"
+                cod = 400
+            } else if (ConexionCasilla.getEstadoCasilla(idCasilla) == "Prueba no superada") {
+                msg = "La prueba de esta casilla ya ha sido fallida, escoja otra casilla"
+                cod = 400
             } else {
-                msg = "Error al buscar la prueba"
+                msg = "Error al buscar la casilla"
                 cod = 400
             }
+
         }
+
+        ganarPartida(idPartida)
+        perderPartida(idPartida, idUsuario)
 
         return Respuesta(msg, cod)
     }
@@ -167,7 +184,7 @@ object CasillaController {
         val casillasTotales = ConexionPartida.getCasillasTotales(idPartida)
         var ganar = false
 
-        if (casillasTotales / 2 == casillasDestapadas) {
+        if (casillasTotales / 2 == casillasDestapadas && ConexionCasilla.getEstadoCasilla(idPartida) == "Prueba superada") {
             ganar = true
             ConexionPartida.actualizarEstadoPartida(idPartida, "Ganada")
         } else {
